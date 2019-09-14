@@ -1,4 +1,4 @@
-package com.ambereye.community.community;
+package com.ambereye.community;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

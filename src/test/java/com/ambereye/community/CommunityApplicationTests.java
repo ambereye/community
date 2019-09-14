@@ -1,4 +1,4 @@
-package com.ambereye.community.community;
+package com.ambereye.community;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
