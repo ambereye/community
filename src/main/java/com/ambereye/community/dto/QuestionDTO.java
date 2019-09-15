@@ -1,6 +1,7 @@
-package model;
+package com.ambereye.community.dto;
 
 import lombok.Data;
+import model.User;
 
 /**
  * TODO
@@ -9,7 +10,7 @@ import lombok.Data;
  * @date 2019/9/15
  */
 @Data
-public class Question {
+public class QuestionDTO {
     private Integer id;
     private String title;
     private String description;
@@ -20,4 +21,6 @@ public class Question {
     private Integer viewCount;
     private Integer commentCount;
     private Integer likeCount;
+
+    private User user;
 }
