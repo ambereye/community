@@ -66,9 +66,12 @@
                 </div>
                 <div class="container-fluid main ">
                     <div class="row">
-                        <li th:if="${error != null}">
-                            <div class="alert alert-danger col-lg-9 col-md-12 col-sm-12" th:text="${error}"></div>
-                        </li>
+                        <div class="col-lg-9 col-md-12 col-sm-12">
+                                <div class="alert alert-danger col-lg-9 col-md-12 col-sm-12"
+                                     th:text="${error}" th:if="${error != null}">
+
+                                </div>
+                        </div>
                         <div class="col-lg-3 col-md-12 col-sm-12">
                             <button type="submit" class="btn btn-success btn-publish">发布
                             </button>
