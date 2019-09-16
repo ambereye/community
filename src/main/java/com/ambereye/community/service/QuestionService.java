@@ -1,5 +1,6 @@
 package com.ambereye.community.service;
 
+import com.ambereye.community.dto.PaginationDTO;
 import com.ambereye.community.dto.QuestionDTO;
 import com.ambereye.community.mapper.QuestionMapper;
 import com.ambereye.community.mapper.UserMapper;
@@ -27,16 +28,24 @@ public class QuestionService {
     @Autowired
     private QuestionMapper questionMapper;
     
-    public List<QuestionDTO> list() {
-        List<Question> questions = questionMapper.list();
-        List<QuestionDTO> QuestionDTOList = new ArrayList<>();
+    public PaginationDTO list(Integer page, Integer size) {
+
+        //size=(page-1)
+        Integer offset = size * (page - 1);
+        List<Question> questions = questionMapper.list(offset,size);
+        List<QuestionDTO> questionDTOList = new ArrayList<>();
+
+        PaginationDTO paginationDTO = new PaginationDTO();
         for (Question question : questions) {
             User user = userMapper.findById(question.getCreator());
             QuestionDTO questionDTO = new QuestionDTO();
             BeanUtils.copyProperties(question,questionDTO);
             questionDTO.setUser(user);
-            QuestionDTOList.add(questionDTO);
+            questionDTOList.add(questionDTO);
         }
-        return QuestionDTOList;
+        paginationDTO.setQuestions(questionDTOList);
+        Integer totalCount = questionMapper.count();
+        paginationDTO.setPagenation(totalCount,page,size);
+        return paginationDTO;
     }
 }
