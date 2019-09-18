@@ -23,9 +23,10 @@ public class PaginationDTO {
     private List<Integer> pages = new ArrayList<>();
 
     private Integer totalPage;
-    public void setPagenation(Integer totalCount, Integer page, Integer size) {
+    public void setPagenation(Integer totalPage, Integer page) {
 
-        this.totalPage = totalCount% size==0 ? totalCount / size : totalCount / size + 1;
+        this.totalPage = totalPage;
+        this.page = page;
 
         pages.add(page);
         //循环页数
@@ -40,14 +41,6 @@ public class PaginationDTO {
 
         }
 
-        //手动输入页数判断
-        if(page<1){
-            page = 1;
-        }
-        if(page>totalPage){
-            page = totalPage;
-        }
-        this.page = page;
 
         //是否展示上一页
         if (page == 1) {
