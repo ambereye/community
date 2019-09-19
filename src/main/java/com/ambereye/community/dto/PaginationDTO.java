@@ -58,9 +58,9 @@ public class PaginationDTO {
 
         //是否展示第一页
         if (pages.contains(1)) {
-            showFirstPage = true;
-        } else {
             showFirstPage = false;
+        } else {
+            showFirstPage = true;
         }
 
         //是否展示最后第一页
