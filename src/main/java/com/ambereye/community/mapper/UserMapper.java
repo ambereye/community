@@ -1,30 +1,30 @@
 package com.ambereye.community.mapper;
 
 import com.ambereye.community.model.User;
-import org.apache.ibatis.annotations.*;
+import com.ambereye.community.model.UserExample;
+import java.util.List;
+import org.apache.ibatis.annotations.Param;
 
-/**
- * TODO
- *
- * @author ambereye
- * @date 2019/9/14
- */
-@Mapper
 public interface UserMapper {
+    long countByExample(UserExample example);
 
-    @Insert("insert into user (name,account_id,token,gmt_create,gmt_modified,avatar_url) " +
-                        "values (#{name},#{accountId},#{token},#{gmtCreate},#{gmtModified},#{avatarUrl})")
-    void insert(User user);
+    int deleteByExample(UserExample example);
 
-    @Select("Select * from user where token = #{token}")
-    User findByToken(@Param("token") String token);
+    int deleteByPrimaryKey(Integer id);
 
-    @Select("Select * from user where id = #{id}")
-    User findById(@Param("id") Integer id );
+    int insert(User record);
 
-    @Select("Select * from user where account_id = #{accountId}")
-    User findByAccountId(@Param("accountId")String accountId);
+    int insertSelective(User record);
 
-    @Update("update user set avatar_url = #{avatarUrl},gmt_modified = #{gmtModified},token = #{token} where id = #{id}")
-    void update(User dbUser);
+    List<User> selectByExample(UserExample example);
+
+    User selectByPrimaryKey(Integer id);
+
+    int updateByExampleSelective(@Param("record") User record, @Param("example") UserExample example);
+
+    int updateByExample(@Param("record") User record, @Param("example") UserExample example);
+
+    int updateByPrimaryKeySelective(User record);
+
+    int updateByPrimaryKey(User record);
 }
