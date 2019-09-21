@@ -1,10 +1,7 @@
 package com.ambereye.community.mapper;
 
 import model.User;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 
 /**
  * TODO
@@ -24,4 +21,10 @@ public interface UserMapper {
 
     @Select("Select * from user where id = #{id}")
     User findById(@Param("id") Integer id );
+
+    @Select("Select * from user where account_id = #{accountId}")
+    User findByAccountId(@Param("accountId")String accountId);
+
+    @Update("update user set avatar_url = #{avatarUrl},gmt_modified = #{gmtModified},token = #{token} where id = #{id}")
+    void update(User dbUser);
 }
