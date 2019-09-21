@@ -1,6 +1,6 @@
 package com.ambereye.community.mapper;
 
-import model.Question;
+import com.ambereye.community.model.Question;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;

@@ -1,4 +1,4 @@
-package model;
+package com.ambereye.community.model;
 
 import lombok.Data;
 

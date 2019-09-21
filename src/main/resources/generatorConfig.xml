@@ -1,0 +1,51 @@
+<!--<?xml version="1.0" encoding="UTF-8"?>-->
+<!--<!DOCTYPE generatorConfiguration-->
+<!--        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"-->
+<!--        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">-->
+
+<!--<generatorConfiguration>-->
+<!--    &lt;!&ndash;数据库驱动&ndash;&gt;-->
+<!--    &lt;!&ndash;注意要保证运行MyBatis Generator的时候能够找到mysql的connector&ndash;&gt;-->
+<!--    &lt;!&ndash; location   The full path name of a JAR/ZIP file to add to the classpath, or a directory to add to the classpath.&ndash;&gt;-->
+<!--    &lt;!&ndash;C:\Users\Panda\.m2\repository\mysql\mysql-connector-java\6.0.6\mysql-connector-java-6.0.6.jar&ndash;&gt;-->
+<!--    <classPathEntry    location="C:\Users\Panda\.m2\repository\mysql\mysql-connector-java\6.0.6\mysql-connector-java-6.0.6.jar"/>-->
+<!--    &lt;!&ndash; A unique identifier for this context. This value will be used in some error messages. &ndash;&gt;-->
+<!--    <context id="mysql2java"    targetRuntime="MyBatis3">-->
+<!--        &lt;!&ndash; http://www.mybatis.org/generator/configreference/commentGenerator.html &ndash;&gt;-->
+<!--        <commentGenerator>-->
+<!--            <property name="suppressDate" value="true"/>-->
+<!--            <property name="suppressAllComments" value="true"/>-->
+<!--        </commentGenerator>-->
+<!--        &lt;!&ndash;数据库链接地址账号密码&ndash;&gt;-->
+<!--        <jdbcConnection driverClass="com.mysql.cj.jdbc.Driver"-->
+<!--                        connectionURL="jdbc:mysql://localhost:3306/community?useUnicode=true&amp;characterEncoding=UTF-8&amp;serverTimezone=UTC&amp;useSSL=true"-->
+<!--                        userId="root" password="root">-->
+<!--        </jdbcConnection>-->
+<!--        <javaTypeResolver>-->
+<!--            <property name="forceBigDecimals" value="false"/>-->
+<!--        </javaTypeResolver>-->
+<!--        &lt;!&ndash;生成Model类存放位置&ndash;&gt;-->
+<!--        &lt;!&ndash; targetProject 指定存放生成文件的根目录&ndash;&gt;-->
+<!--        <javaModelGenerator targetPackage="com.ambereye.community.model" targetProject="src/main/java">-->
+<!--            <property name="enableSubPackages" value="true"/>-->
+<!--            <property name="trimStrings" value="true"/>-->
+<!--        </javaModelGenerator>-->
+<!--        &lt;!&ndash;生成映射文件存放位置&ndash;&gt;-->
+<!--        <sqlMapGenerator targetPackage="mapper" targetProject="src/main/resources">-->
+<!--            <property name="enableSubPackages" value="true"/>-->
+<!--        </sqlMapGenerator>-->
+<!--        &lt;!&ndash;生成Dao类存放位置&ndash;&gt;-->
+<!--        <javaClientGenerator type="XMLMAPPER" targetPackage="com.ambereye.community.mapper" targetProject="src/main/java">-->
+<!--            <property name="enableSubPackages" value="true"/>-->
+<!--        </javaClientGenerator>-->
+<!--        &lt;!&ndash;配置MBG对哪个数据表进行生成工作, 对于MYSQL数据库来说, 因为没有SCHEMA这个概念, 必须使用catalog来指定到底用哪个数据库, 否则如果多个数据库有同名表, MYBATIS会自己选一个&ndash;&gt;-->
+<!--        <table tableName="user"-->
+<!--               catalog="community"-->
+<!--               domainObjectName="User"-->
+<!--               enableCountByExample="false"-->
+<!--               enableUpdateByExample="false"-->
+<!--               enableDeleteByExample="false"-->
+<!--               enableSelectByExample="false"-->
+<!--               selectByExampleQueryId="false"></table>-->
+<!--    </context>-->
+<!--</generatorConfiguration>-->

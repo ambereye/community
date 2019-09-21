@@ -1,7 +1,7 @@
 package com.ambereye.community.service;
 
 import com.ambereye.community.mapper.UserMapper;
-import model.User;
+import com.ambereye.community.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

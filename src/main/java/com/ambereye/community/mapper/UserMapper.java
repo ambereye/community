@@ -1,6 +1,6 @@
 package com.ambereye.community.mapper;
 
-import model.User;
+import com.ambereye.community.model.User;
 import org.apache.ibatis.annotations.*;
 
 /**

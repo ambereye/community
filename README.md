@@ -39,5 +39,9 @@ create table question
 	constraint question_pk
 		primary key (id)
 );
+```
+
+```bash
+mvn -Dmybatis.generator.overwritre=true mybatis-generator:generate
 
 ```

@@ -1,7 +1,6 @@
 package com.ambereye.community.dto;
 
 import lombok.Data;
-import model.Question;
 
 import java.util.ArrayList;
 import java.util.List;

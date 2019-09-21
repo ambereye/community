@@ -2,10 +2,9 @@ package com.ambereye.community.controller;
 
 import com.ambereye.community.dto.AccessTokenDTO;
 import com.ambereye.community.dto.GithubUser;
-import com.ambereye.community.mapper.UserMapper;
 import com.ambereye.community.provider.GithubProvider;
 import com.ambereye.community.service.UserService;
-import model.User;
+import com.ambereye.community.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
