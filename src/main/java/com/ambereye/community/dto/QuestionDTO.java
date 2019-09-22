@@ -1,7 +1,7 @@
 package com.ambereye.community.dto;
 
-import lombok.Data;
 import com.ambereye.community.model.User;
+import lombok.Data;
 
 /**
  * TODO
