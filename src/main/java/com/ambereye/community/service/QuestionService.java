@@ -4,6 +4,7 @@ import com.ambereye.community.dto.PaginationDTO;
 import com.ambereye.community.dto.QuestionDTO;
 import com.ambereye.community.exception.CustomizeErrorCodeEnum;
 import com.ambereye.community.exception.CustomizeException;
+import com.ambereye.community.mapper.QuestionExtMapper;
 import com.ambereye.community.mapper.QuestionMapper;
 import com.ambereye.community.mapper.UserMapper;
 import com.ambereye.community.model.Question;
@@ -31,6 +32,9 @@ public class QuestionService {
 
     @Autowired
     private QuestionMapper questionMapper;
+
+    @Autowired
+    private QuestionExtMapper questionExtMapper;
     
     public PaginationDTO list(Integer page, Integer size) {
 
@@ -141,5 +145,12 @@ public class QuestionService {
             }
         }
 
+    }
+
+    public void incView(Integer id) {
+        Question question = new Question();
+        question.setId(id);
+        question.setViewCount(1);
+        questionExtMapper.incView(question);
     }
 }
