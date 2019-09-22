@@ -46,5 +46,6 @@
         <!--配置MBG对哪个数据表进行生成工作, 对于MYSQL数据库来说, 因为没有SCHEMA这个概念, 必须使用catalog来指定到底用哪个数据库, 否则如果多个数据库有同名表, MYBATIS会自己选一个-->
         <table tableName="t_user" domainObjectName="User"/>
         <table tableName="question" domainObjectName="Question"/>
+        <table tableName="comment" domainObjectName="Comment"/>
     </context>
 </generatorConfiguration>
