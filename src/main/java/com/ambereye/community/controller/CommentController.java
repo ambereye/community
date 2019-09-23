@@ -37,7 +37,15 @@ public class CommentController {
         if (user == null) {
             return ResultDTO.errorOf(CustomizeErrorCodeEnum.NO_LOGIN);
         }
-        commentService.insert(commentDTO);
+        Comment comment = new Comment();
+        comment.setParentId(commentDTO.getParentId());
+        comment.setContent(commentDTO.getContent());
+        comment.setType(commentDTO.getType());
+        comment.setGmtCreate(System.currentTimeMillis());
+        comment.setGmtModified(System.currentTimeMillis());
+        comment.setCommentator(1);
+        comment.setLikeCount(0L);
+        commentService.insert(comment);
         return ResultDTO.okOf();
     }
 }

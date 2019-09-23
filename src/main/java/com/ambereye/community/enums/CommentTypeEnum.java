@@ -8,8 +8,16 @@ public enum CommentTypeEnum {
     CommentTypeEnum(Integer type) {
         this.type = type;
     }
-
     public Integer getType() {
         return type;
+    }
+
+    public static boolean isExit(Integer type) {
+        for (CommentTypeEnum commentTypeEnum: CommentTypeEnum.values()){
+            if (commentTypeEnum.getType().equals(type)) {
+                return true;
+            }
+        }
+        return false;
     }
 }
