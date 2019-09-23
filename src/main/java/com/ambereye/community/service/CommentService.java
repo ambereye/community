@@ -11,6 +11,9 @@ import com.ambereye.community.model.Comment;
 import com.ambereye.community.model.Question;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.beans.Transient;
 
 /**
  * TODO
@@ -28,6 +31,8 @@ public class CommentService {
     @Autowired
     private QuestionExtMapper questionExtMapper;
 
+
+    @Transactional(rollbackFor = Exception.class)
     public void insert(Comment comment) {
         if(comment == null ||comment.getParentId()==0){
             throw new CustomizeException(CustomizeErrorCodeEnum.TARGET_PARAM_NOT_FUND);
