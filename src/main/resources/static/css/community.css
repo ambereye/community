@@ -15,6 +15,9 @@ body{
     height:40px;
     width:40px;
 }
+.media-body{
+    padding-top: 10px;
+}
 
 .text-desc{
     font-size:12px;
