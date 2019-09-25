@@ -37,3 +37,7 @@ body{
 .jumbotron{
     margin: 50px;
 }
+
+.comment {
+    margin: 10px 0 10px 0;
+}
