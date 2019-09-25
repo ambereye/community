@@ -7,13 +7,18 @@ import com.ambereye.community.exception.CustomizeException;
 import com.ambereye.community.mapper.CommentMapper;
 import com.ambereye.community.mapper.QuestionExtMapper;
 import com.ambereye.community.mapper.QuestionMapper;
-import com.ambereye.community.model.Comment;
-import com.ambereye.community.model.Question;
+import com.ambereye.community.mapper.UserMapper;
+import com.ambereye.community.model.*;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.beans.Transient;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * TODO
@@ -30,7 +35,8 @@ public class CommentService {
     private QuestionMapper questionMapper;
     @Autowired
     private QuestionExtMapper questionExtMapper;
-
+    @Autowired
+    private UserMapper userMapper;
 
     @Transactional(rollbackFor = Exception.class)
     public void insert(Comment comment) {
@@ -61,5 +67,38 @@ public class CommentService {
             questionExtMapper.incCommentCount(question);
         }
 
+    }
+
+    public List<CommentDTO> listByQuestionId(Long id) {
+        CommentExample commentExample = new CommentExample();
+        commentExample.createCriteria()
+                .andParentIdEqualTo(id)
+                .andTypeEqualTo(CommentTypeEnum.COMMENT.getType());
+        List<Comment> comments = commentMapper.selectByExample(commentExample);
+
+        if (comments.size() == 0) {
+            return new ArrayList<>();
+        }
+        //获取去重评论
+        Set<Long> commentstators = comments.stream().map(comment -> comment.getCommentator()).collect(Collectors.toSet());
+        List<Long> userIds = new ArrayList<>();
+        userIds.addAll(commentstators);
+
+        //获取去重评论人并转Map
+        UserExample userExample = new UserExample();
+        userExample.createCriteria()
+                .andIdIn(userIds);
+        List<User> users = userMapper.selectByExample(userExample);
+        Map<Long, User> userMap = users.stream().collect(Collectors.toMap(user -> user.getId(), user -> user));
+
+        //转换comment->commentDTO
+        List<CommentDTO> CommentDTOS = comments.stream().map(comment -> {
+            CommentDTO commentDTO = new CommentDTO();
+            BeanUtils.copyProperties(comment,commentDTO);
+            commentDTO.setUser(userMap.get(comment.getCommentator()));
+            return commentDTO;
+        }).collect(Collectors.toList());
+
+        return CommentDTOS;
     }
 }

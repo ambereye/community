@@ -11,7 +11,7 @@ function post() {
         data: JSON.stringify({
             "parentId":questionId,
             "content" :commentContent,
-            "type":1
+            "type":2
         }),
         success: function (response) {
             debugger
