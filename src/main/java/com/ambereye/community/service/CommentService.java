@@ -73,7 +73,7 @@ public class CommentService {
         CommentExample commentExample = new CommentExample();
         commentExample.createCriteria()
                 .andParentIdEqualTo(id)
-                .andTypeEqualTo(CommentTypeEnum.COMMENT.getType());
+                .andTypeEqualTo(CommentTypeEnum.QUESTION.getType());
         List<Comment> comments = commentMapper.selectByExample(commentExample);
 
         if (comments.size() == 0) {
