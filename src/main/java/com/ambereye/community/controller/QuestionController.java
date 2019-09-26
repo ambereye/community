@@ -2,6 +2,7 @@ package com.ambereye.community.controller;
 
 import com.ambereye.community.dto.CommentDTO;
 import com.ambereye.community.dto.QuestionDTO;
+import com.ambereye.community.enums.CommentTypeEnum;
 import com.ambereye.community.service.CommentService;
 import com.ambereye.community.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +33,7 @@ public class QuestionController {
                            Model model){
         QuestionDTO questionDTO = questionService.getById(id);
 
-        List<CommentDTO> comments = commentService.listByQuestionId(id);
+        List<CommentDTO> comments = commentService.listByQuestionId(id, CommentTypeEnum.QUESTION);
 
         //累加阅读数
         questionService.incView(id);

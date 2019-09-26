@@ -6,7 +6,8 @@ public enum CustomizeErrorCodeEnum implements ICustomizeErrorCode{
     NO_LOGIN(2003, "未登录不能评论,请登录"),
     SYSTEM_ERROR(2004, "服务器太忙啦,请稍后再试"),
     TYPE_PARAM_WRONG(2005, "评论类型错误或不存在"),
-    COMMENT_NOT_FUND(2005, "你回复的评论不存在");
+    COMMENT_NOT_FUND(2006, "你回复的评论不存在"),
+    COMMENT_IS_EMPTY(2007, "输入内容不能为空");
 
     private Integer code;
     private String message;
