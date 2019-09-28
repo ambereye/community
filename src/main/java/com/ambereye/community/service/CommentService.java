@@ -4,10 +4,7 @@ import com.ambereye.community.dto.CommentDTO;
 import com.ambereye.community.enums.CommentTypeEnum;
 import com.ambereye.community.exception.CustomizeErrorCodeEnum;
 import com.ambereye.community.exception.CustomizeException;
-import com.ambereye.community.mapper.CommentMapper;
-import com.ambereye.community.mapper.QuestionExtMapper;
-import com.ambereye.community.mapper.QuestionMapper;
-import com.ambereye.community.mapper.UserMapper;
+import com.ambereye.community.mapper.*;
 import com.ambereye.community.model.*;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +34,8 @@ public class CommentService {
     private QuestionExtMapper questionExtMapper;
     @Autowired
     private UserMapper userMapper;
+    @Autowired
+    private CommentExtMapper commentExtMapper;
 
     @Transactional(rollbackFor = Exception.class)
     public void insert(Comment comment) {
@@ -56,6 +55,12 @@ public class CommentService {
             }
 
             commentMapper.insert(comment);
+
+            //增加评论数
+            Comment parentComment = new Comment();
+            parentComment.setId(comment.getParentId());
+            parentComment.setCommentCount(1);
+            commentExtMapper.incCommentCount(parentComment);
         } else {
             //回复问题
             Question question = questionMapper.selectByPrimaryKey(comment.getParentId());
