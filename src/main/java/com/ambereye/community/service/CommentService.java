@@ -50,7 +50,7 @@ public class CommentService {
 
         if (comment.getType().equals(CommentTypeEnum.COMMENT.getType())) {
             //回复评论
-            Comment dbComment = commentMapper.selectByPrimaryKey(comment.getId());
+            Comment dbComment = commentMapper.selectByPrimaryKey(comment.getParentId());
             if (dbComment == null) {
                 throw new CustomizeException(CustomizeErrorCodeEnum.COMMENT_NOT_FUND);
             }

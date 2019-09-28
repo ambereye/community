@@ -2,17 +2,18 @@
  * 提交回复
  */
 function post() {
-    var questionId  = $('input[id="question_id"]').val();
-    var content  = $("#comment_content").val();
-    commnet2target(questionId,1,content);
+    var questionId = $('input[id="question_id"]').val();
+    var content = $("#comment_content").val();
+    commnet2target(questionId, 1, content);
 }
 
 function comment(e) {
-    var commentId=e.getAttribute("data-id");
-    var content = $("#input-" + id).val();
-    commnet2target(commentId,2,content);
+    var commentId = e.getAttribute("data-id");
+    var content = $("#input-" + commentId).val();
+    commnet2target(commentId, 2, content);
 }
-function commnet2target(targetId,type,content) {
+
+function commnet2target(targetId, type, content) {
     if (!content) {
         alert("不能回复空内容~~~~");
         return
@@ -22,9 +23,9 @@ function commnet2target(targetId,type,content) {
         url: "/comment",
         contentType: 'application/json',
         data: JSON.stringify({
-            "parentId":targetId,
-            "content" :content,
-            "type":type
+            "parentId": targetId,
+            "content": content,
+            "type": type
         }),
         success: function (response) {
             if (response.code == 200) {
@@ -50,8 +51,7 @@ function commnet2target(targetId,type,content) {
  *  展开二级评论
  */
 function collapseComments(e) {
-    debugger
-    var id=e.getAttribute("data-id");
+    var id = e.getAttribute("data-id");
     var comments = $("#comment-" + id);
 
     //获取二级评论展开状态
@@ -62,10 +62,32 @@ function collapseComments(e) {
         e.removeAttribute("data-collapse");
         e.classList.remove("active");
     } else {
-        //展开二级
-        comments.addClass("in");
-        e.setAttribute("data-collapse","in");
-        e.classList.add("active");
+        //获取请求数据后
+        $.getJSON("/comment/" + id, function (data) {
+            console.log(data);
+            var commentBody = $('comment-body-' + id);
+            var items = [];
+
+            $.each(data.data, function (comment) {
+                var c = $("<div/>", {
+                    "class": "col-lg-12 col-md-12 col-sm-12 comments",
+                    html: comment.content
+                });
+                items.push(c);
+            });
+
+            commentBody.append($("<div/>", {
+                "class": "col-lg-12 col-md-12 col-sm-12 collapse sub-comments",
+                "id": "comment-" + id,
+                html: items.join("")
+            }));
+
+            //展开二级
+            comments.addClass("in");
+            e.setAttribute("data-collapse", "in");
+            e.classList.add("active");
+        });
+
     }
 
 }

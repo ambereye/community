@@ -17,7 +17,7 @@ public class CommentDTO {
 
     private Integer type;
 
-    private Integer commentator;
+    private Long commentator;
 
     private Long gmtCreate;
 
