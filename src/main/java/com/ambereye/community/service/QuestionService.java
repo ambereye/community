@@ -55,7 +55,7 @@ public class QuestionService {
             page = totalPage;
         }
 
-        paginationDTO.setPagenation(totalPage,page);
+        paginationDTO.setPagination(totalPage,page);
 
 
         //size=(page-1)
@@ -72,7 +72,7 @@ public class QuestionService {
             questionDTO.setUser(user);
             questionDTOList.add(questionDTO);
         }
-        paginationDTO.setQuestions(questionDTOList);
+        paginationDTO.setData(questionDTOList);
 
         return paginationDTO;
     }
@@ -95,7 +95,7 @@ public class QuestionService {
             page = totalPage;
         }
 
-        paginationDTO.setPagenation(totalPage,page);
+        paginationDTO.setPagination(totalPage,page);
 
 
         //size=(page-1)
@@ -114,7 +114,7 @@ public class QuestionService {
             questionDTO.setUser(user);
             questionDTOList.add(questionDTO);
         }
-        paginationDTO.setQuestions(questionDTOList);
+        paginationDTO.setData(questionDTOList);
 
         return paginationDTO;
     }
