@@ -4,9 +4,12 @@ import com.ambereye.community.dto.NotificationDTO;
 import com.ambereye.community.dto.PaginationDTO;
 import com.ambereye.community.enums.NotificationStatusEnum;
 import com.ambereye.community.enums.NotificationTypeEnum;
+import com.ambereye.community.exception.CustomizeErrorCodeEnum;
+import com.ambereye.community.exception.CustomizeException;
 import com.ambereye.community.mapper.NotificationMapper;
 import com.ambereye.community.model.Notification;
 import com.ambereye.community.model.NotificationExample;
+import com.ambereye.community.model.User;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * TODO
@@ -84,5 +88,23 @@ public class NotificationService {
                 .andReceiverEqualTo(userId)
                 .andStatusEqualTo(NotificationStatusEnum.UNREAD.getStatus());
         return notificationMapper.countByExample(notificationExample);
+    }
+
+    public NotificationDTO read(Long id, User user) {
+        Notification notification = notificationMapper.selectByPrimaryKey(id);
+        if (notification == null) {
+            throw new CustomizeException(CustomizeErrorCodeEnum.NOTIFICATION_NOT_FOUND);
+        }
+        if (!Objects.equals(notification.getReceiver(), user.getId())) {
+                throw new CustomizeException(CustomizeErrorCodeEnum.READ_NOTIFICATION_FAIL);
+        }
+
+        notification.setStatus(NotificationStatusEnum.READ.getStatus());
+        notificationMapper.updateByPrimaryKey(notification);
+
+        NotificationDTO notificationDTO = new NotificationDTO();
+        BeanUtils.copyProperties(notification, notificationDTO);
+        notificationDTO.setTypeName(NotificationTypeEnum.nameOfType(notification.getType()));
+        return notificationDTO;
     }
 }
