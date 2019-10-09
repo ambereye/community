@@ -1,5 +1,6 @@
 package com.ambereye.community.mapper;
 
+import com.ambereye.community.dto.QuestionQueryDTO;
 import com.ambereye.community.model.Question;
 import com.ambereye.community.model.QuestionExample;
 import org.apache.ibatis.annotations.Param;
@@ -14,4 +15,8 @@ public interface QuestionExtMapper {
     void incCommentCount(Question question);
 
     List<Question> selectRelated(Question question);
+
+    Integer countBySearch(QuestionQueryDTO questionQueryDTO);
+
+    List<Question> selectBySearch(QuestionQueryDTO questionQueryDTO);
 }

@@ -2,6 +2,7 @@ package com.ambereye.community.service;
 
 import com.ambereye.community.dto.PaginationDTO;
 import com.ambereye.community.dto.QuestionDTO;
+import com.ambereye.community.dto.QuestionQueryDTO;
 import com.ambereye.community.exception.CustomizeErrorCodeEnum;
 import com.ambereye.community.exception.CustomizeException;
 import com.ambereye.community.mapper.QuestionExtMapper;
@@ -40,10 +41,18 @@ public class QuestionService {
     @Autowired
     private QuestionExtMapper questionExtMapper;
     
-    public PaginationDTO list(Integer page, Integer size) {
+    public PaginationDTO list(String search, Integer page, Integer size) {
+
+        if (StringUtils.isNotBlank(search)) {
+            String[] tags = StringUtils.split(search , " ");
+            search = Arrays.stream(tags).collect(Collectors.joining("|"));
+        }
 
         PaginationDTO paginationDTO = new PaginationDTO();
-        Integer totalCount = (int)questionMapper.countByExample(new QuestionExample());
+        QuestionQueryDTO questionQueryDTO = new QuestionQueryDTO();
+        questionQueryDTO.setSearch(search);
+
+        Integer totalCount = questionExtMapper.countBySearch(questionQueryDTO);
 
         Integer totalPage = totalCount% size==0 ? totalCount / size : totalCount / size + 1;
 
@@ -62,7 +71,9 @@ public class QuestionService {
         Integer offset = size * (page - 1);
         QuestionExample questionExamplemple = new QuestionExample();
         questionExamplemple.setOrderByClause("gmt_create desc");
-        List<Question> questions = questionMapper.selectByExampleWithRowbounds(questionExamplemple, new RowBounds(offset, size));
+        questionQueryDTO.setSize(size);
+        questionQueryDTO.setPage(offset);
+        List<Question> questions = questionExtMapper.selectBySearch(questionQueryDTO);
 
         List<QuestionDTO> questionDTOList = new ArrayList<>();
         for (Question question : questions) {
