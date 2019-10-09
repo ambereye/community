@@ -5,6 +5,7 @@ import com.ambereye.community.dto.GithubUser;
 import com.ambereye.community.model.User;
 import com.ambereye.community.provider.GithubProvider;
 import com.ambereye.community.service.UserService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -23,6 +24,7 @@ import java.util.UUID;
  * @date 2019/9/14
  */
 @Controller
+@Slf4j
 public class AuthorizeController {
 
     @Autowired
@@ -62,6 +64,7 @@ public class AuthorizeController {
             // 重定向的是url不是页面
             return "redirect:/";
         } else {
+            log.error("callback get github error ,{}",githubUser);
             return "redirect:/";
         }
 
