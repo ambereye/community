@@ -41,15 +41,11 @@ public class AuthorizeController {
     private UserService userService;
 
     @GetMapping("/callback")
-    public String callback(@RequestParam(name = "code") String code,
-                           @RequestParam(name="state") String state,
-                           HttpServletResponse response) {
-        AccessTokenDTO accessTokenDTO = new AccessTokenDTO();
+    public String callback(AccessTokenDTO accessTokenDTO, HttpServletResponse response) {
+
         accessTokenDTO.setClient_id(clientId);
         accessTokenDTO.setClient_secret(clientSecret);
-        accessTokenDTO.setCode(code);
         accessTokenDTO.setRedirect_uri(redirectUrl);
-        accessTokenDTO.setState(state);
         String accessToken = githubProvider.getAccessToken(accessTokenDTO);
         GithubUser githubUser = githubProvider.getUser(accessToken);
         if (githubUser != null) {
@@ -64,15 +60,14 @@ public class AuthorizeController {
             // 重定向的是url不是页面
             return "redirect:/";
         } else {
-            log.error("callback get github error ,{}",githubUser);
+            log.error("callback get github error");
             return "redirect:/";
         }
 
     }
 
     @GetMapping("/logout")
-    public String logout(HttpServletRequest request,
-                         HttpServletResponse response){
+    public String logout(HttpServletRequest request, HttpServletResponse response){
         //1清除session
         request.getSession().removeAttribute("user");
         Cookie cookie = new Cookie("token",null);

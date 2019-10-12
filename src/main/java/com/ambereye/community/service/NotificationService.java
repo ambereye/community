@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
  * TODO
@@ -70,14 +71,13 @@ public class NotificationService {
             return paginationDTO;
         }
 
-        List<NotificationDTO> notificationDTOS = new ArrayList<>();
-
-        for (Notification notification : notifications) {
+        List<NotificationDTO> notificationDTOS = notifications.stream().map(notification -> {
             NotificationDTO notificationDTO = new NotificationDTO();
             BeanUtils.copyProperties(notification, notificationDTO);
             notificationDTO.setTypeName(NotificationTypeEnum.nameOfType(notification.getType()));
-            notificationDTOS.add(notificationDTO);
-        }
+            return notificationDTO;
+        }).collect(Collectors.toList());
+
         paginationDTO.setData(notificationDTOS);
         return paginationDTO;
     }

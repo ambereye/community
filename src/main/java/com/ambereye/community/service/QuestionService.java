@@ -115,9 +115,9 @@ public class QuestionService {
         example.createCriteria()
                 .andCreatorEqualTo(userId);
         List<Question> questions = questionMapper.selectByExampleWithRowbounds(example, new RowBounds(offset, size));
+
+
         List<QuestionDTO> questionDTOList = new ArrayList<>();
-
-
         for (Question question : questions) {
             User user = userMapper.selectByPrimaryKey(question.getCreator());
             QuestionDTO questionDTO = new QuestionDTO();
@@ -179,17 +179,16 @@ public class QuestionService {
             return new ArrayList<>();
         }
         String[] tags = StringUtils.split(queryDTO.getTag() , ",");
-        String regexpTag = Arrays.stream(tags).collect(Collectors.joining("|"));
+        String regexpTag = StringUtils.join(tags, "|");
         Question question = new Question();
         question.setId(queryDTO.getId());
         question.setTag(regexpTag);
 
         List<Question> questions = questionExtMapper.selectRelated(question);
-        List<QuestionDTO> questionDTOS = questions.stream().map(q -> {
+        return questions.stream().map(q -> {
             QuestionDTO questionDTO = new QuestionDTO();
             BeanUtils.copyProperties(q,questionDTO);
             return  questionDTO;
         }).collect(Collectors.toList());
-        return questionDTOS;
     }
 }

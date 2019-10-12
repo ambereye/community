@@ -1,5 +1,6 @@
 package com.ambereye.community.controller;
 
+import com.ambereye.community.annotation.HasLogin;
 import com.ambereye.community.dto.CommentCreateDTO;
 import com.ambereye.community.dto.CommentDTO;
 import com.ambereye.community.dto.ResultDTO;
@@ -24,20 +25,16 @@ import java.util.List;
  */
 @Controller
 public class CommentController {
+
     @Autowired
     private CommentService commentService;
 
+
+    @PostMapping("/comment")
     @ResponseBody
-    @RequestMapping(value = "/comment", method = RequestMethod.POST)
-    public Object post(@RequestBody CommentCreateDTO commentDTO,
-                       HttpServletRequest request) {
-        User user = (User) request.getSession().getAttribute("user");
-        if (user == null) {
-            return ResultDTO.errorOf(CustomizeErrorCodeEnum.NO_LOGIN);
-        }
-        if (commentDTO == null || StringUtils.isBlank(commentDTO.getContent())) {
-            return ResultDTO.errorOf(CustomizeErrorCodeEnum.COMMENT_IS_EMPTY);
-        }
+    @HasLogin
+    public Object post(@RequestBody CommentCreateDTO commentDTO, HttpServletRequest request, @SessionAttribute User user) {
+
         Comment comment = new Comment();
         comment.setParentId(commentDTO.getParentId());
         comment.setContent(commentDTO.getContent());
@@ -50,8 +47,9 @@ public class CommentController {
         return ResultDTO.okOf();
     }
 
+
+    @GetMapping("/comment/{id}")
     @ResponseBody
-    @RequestMapping(value = "/comment/{id}", method = RequestMethod.GET)
     public ResultDTO<List<CommentDTO>> comments(@PathVariable(name = "id") Long id){
         List<CommentDTO> commentDTOS = commentService.listByQuestionId(id, CommentTypeEnum.COMMENT);
         return ResultDTO.okOf(commentDTOS);
