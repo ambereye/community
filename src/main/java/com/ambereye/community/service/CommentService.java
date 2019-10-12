@@ -13,10 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -115,28 +112,24 @@ public class CommentService {
         List<Comment> comments = commentMapper.selectByExample(commentExample);
 
         if (comments.size() == 0) {
-            return new ArrayList<>();
+            return Collections.emptyList();
         }
-        //获取去重评论
-        Set<Long> commentstators = comments.stream().map(comment -> comment.getCommentator()).collect(Collectors.toSet());
-        List<Long> userIds = new ArrayList<>();
-        userIds.addAll(commentstators);
+        //获取去重评论  long
+        List<Long> userIds = comments.stream().map(Comment::getCommentator).distinct().collect(Collectors.toList());
 
         //获取去重评论人并转Map
         UserExample userExample = new UserExample();
-        userExample.createCriteria()
-                .andIdIn(userIds);
+        userExample.createCriteria().andIdIn(userIds);
         List<User> users = userMapper.selectByExample(userExample);
-        Map<Long, User> userMap = users.stream().collect(Collectors.toMap(user -> user.getId(), user -> user));
+
+        Map<Long, User> userMap = users.stream().collect(Collectors.toMap(User::getId, user -> user));
 
         //转换comment->commentDTO
-        List<CommentDTO> CommentDTOS = comments.stream().map(comment -> {
+        return comments.stream().map(comment -> {
             CommentDTO commentDTO = new CommentDTO();
             BeanUtils.copyProperties(comment,commentDTO);
             commentDTO.setUser(userMap.get(comment.getCommentator()));
             return commentDTO;
         }).collect(Collectors.toList());
-
-        return CommentDTOS;
     }
 }
